@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Create Task</title>
+
+    <script type="text/javascript" src="/apps/2.0/sdk.js"></script>
+
+    <script type="text/javascript">
+        Rally.onReady(function () {
+                Ext.define("CustomApp",{extend:"Rally.app.App",launch:function(){this.getModel().then({success:this.createTask,scope:this}).then({success:this.readRecord,scope:this}).then({success:function(result){console.log("result",result)},failure:function(error){console.log("oh noes!",error)}})},getModel:function(){return Rally.data.ModelFactory.getModel({type:"Task"})},createTask:function(model){console.log("creating a task...");var record=Ext.create(model,{Name:"mytask",WorkProduct:"/hierarchicalrequirement/36566618167",Owner:this.getContext().getUser()._ref});return record.save()},readRecord:function(record){return record.self.load(record.getId(),{fetch:["Name","Owner","Workproduct"]})}});
+
+            Rally.launchApp('CustomApp', {
+                name:"Create Task",
+	            parentRepos:""
+            });
+
+        });
+    </script>
+
+
+    <style type="text/css">
+        
+    </style>
+</head>
+<body>
+</body>
+</html>
